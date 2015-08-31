@@ -36,7 +36,15 @@
     /**
      * @constructor
      */
-    _.Snorlax = function() {
+    _.Snorlax = function(_config) {
+        // Custume config
+        if (_config){
+            var k = Object.keys(_config);
+            for (var i = 0; i < k.length; i++){
+                config[k[i]] = _config[k[i]];
+            }
+        }
+
         q = []
             .slice.call(document.getElementsByClassName(config.cssClassPrefix))
             .map(function(obj){
