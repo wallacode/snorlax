@@ -1,2 +1,3 @@
-# snorlax
-Lazy loading
+# Snorlax
+Lazy loading plugin - By WallaCode
+ ---
