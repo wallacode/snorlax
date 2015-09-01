@@ -7,7 +7,10 @@
  .##....##.##...###.##.....##.##....##..##.......##.....##..##...##.
  ..######..##....##..#######..##.....##.########.##.....##.##.....##
 
- light weight lazy loading plugin that supports
+ light weight lazy loading plugin
+ § Version:     1.0.0
+ § Author:      Walla!Code (walla.co.il)
+ § Repo:        https://github.com/wallacode/snorlax
  */
 
 ;(function(_) {
@@ -30,8 +33,9 @@
             cssClassPrefix: 'snorlax',
             loadDelta: 1000,
             event: 'scroll'
-        }
-        ;
+        },
+
+        isOn = true
 
     /**
      * @constructor
@@ -91,12 +95,26 @@
     };
 
     /**
+     * start Snorlax
+     */
+    _.Snorlax.prototype.start = function(){
+        isOn = true;
+    };
+
+    /**
+     * stop Snorlax
+     */
+    _.Snorlax.prototype.stop = function(){
+        isOn = false;
+    }
+
+    /**
      * load all the images from the scrollHight
      * @param scrollHight {number}
      * @private
      */
     function __load(scrollHight){
-        while(q.length){
+        while(isOn && q.length){
             if (q[0].top - config.threshold < scrollHight){
                 __show(q[0]);
                 q.shift();
@@ -135,6 +153,5 @@
     function __getDocumentBottomScroll(){
         return document.body.scrollTop + _.innerHeight;
     }
-
 
 }(window));

@@ -54,3 +54,19 @@ lazy.refreshConfig({
   attrPrefix: 'data-shota-snorlax'
 });
 ```
+
+__stop()__
+stop Snorlax
+```javascript
+var lazy = new Snorlax();
+...
+lazy.stop();
+```
+
+__start()__
+start Snorlax
+```javascript
+var lazy = new Snorlax();
+...
+lazy.start();
+```
