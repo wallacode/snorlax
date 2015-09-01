@@ -37,9 +37,20 @@ event               | 'scroll'       | which event to fire the loading
 ## Methods
 
 __loadAll()__
-will load all the objects
+will load all the objects.
 ```javascript
 var lazy = new Snorlax();
 ...
 lazy.loadAll();
+```
+
+__refreshConfig(config)__
+change the config of Snorlax.
+```javascript
+var lazy = new Snorlax();
+...
+lazy.refreshConfig({
+  threshold: 300,
+  attrPrefix: 'data-shota-snorlax'
+});
 ```

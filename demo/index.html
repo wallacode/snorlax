@@ -33,10 +33,7 @@
 
 <script src="../src/snorlax.js"></script>
 <script>
-    var lazy = new Snorlax({
-        threshold: 300,
-        attrPrefix: 'data-shota-snorlax'
-    });
+    var lazy = new Snorlax();
 
     document.getElementsByClassName('loadAll')[0].onclick = function(){
         lazy.loadAll();
