@@ -4,8 +4,14 @@
 §    __Repo:__ https://github.com/wallacode/snorlax
 
 ## Use
-```
+### HTML
+```html
 <ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY>
+```
+
+### Javascript
+```javascript
+var lazy = new Snorlax();
 ```
 
 ## Options
