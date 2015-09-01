@@ -3,6 +3,11 @@
 §    __Author:__ Walla!Code
 §    __Repo:__ https://github.com/wallacode/snorlax
 
+## Use
+```
+<ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY>
+```
+
 ## Options
  Name               | Default        | Description
 --------------------|----------------|-------------------
