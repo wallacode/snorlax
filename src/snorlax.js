@@ -77,7 +77,7 @@
      * Load all the objects
      */
     _.Snorlax.prototype.loadAll = function(){
-        while(q.length){
+        for(;q.length;){
             __show(q[0]);
             q.shift();
         }
@@ -106,7 +106,7 @@
      */
     _.Snorlax.prototype.stop = function(){
         isOn = false;
-    }
+    };
 
     /**
      * load all the images from the scrollHight
@@ -114,7 +114,7 @@
      * @private
      */
     function __load(scrollHight){
-        while(isOn && q.length){
+        for(;isOn && q.length;){
             if (q[0].top - config.threshold < scrollHight){
                 __show(q[0]);
                 q.shift();
