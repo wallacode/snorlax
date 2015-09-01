@@ -37,12 +37,9 @@
      * @constructor
      */
     _.Snorlax = function(_config) {
-        // Custume config
+        // Custom config
         if (_config){
-            var k = Object.keys(_config);
-            for (var i = 0; i < k.length; i++){
-                config[k[i]] = _config[k[i]];
-            }
+            this.refreshConfig(_config);
         }
 
         q = []
@@ -70,6 +67,27 @@
         });
 
         __load(lastScroll);
+    };
+
+    /**
+     * Load all the objects
+     */
+    _.Snorlax.prototype.loadAll = function(){
+        while(q.length){
+            __show(q[0]);
+            q.shift();
+        }
+    };
+
+    /**
+     * change the default config of Snorlax
+     * @param _config
+     */
+    _.Snorlax.prototype.refreshConfig = function(_config){
+        var k = Object.keys(_config);
+        for (var i = 0; i < k.length; i++){
+            config[k[i]] = _config[k[i]];
+        }
     };
 
     /**
@@ -117,4 +135,6 @@
     function __getDocumentBottomScroll(){
         return document.body.scrollTop + _.innerHeight;
     }
+
+
 }(window));

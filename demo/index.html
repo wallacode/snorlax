@@ -19,6 +19,7 @@
     </style>
 </head>
 <body>
+<div class="loadAll">Load All</div>
 <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://msc.wcdn.co.il/w/w-635/1967120-54.jpg"></div>
 <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://msc.wcdn.co.il/w/w-635/1967120-54.jpg"></div>
 <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://msc.wcdn.co.il/w/w-635/1967120-54.jpg"></div>
@@ -30,9 +31,16 @@
 <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://msc.wcdn.co.il/w/w-635/1967120-54.jpg"></div>
 <div class="snorlax" data-snorlax-src="http://www.walla.co.il"></div>
 
-<script src="src/snorlax.min.js"></script>
+<script src="../src/snorlax.js"></script>
 <script>
-    var lazy = new Snorlax();
+    var lazy = new Snorlax({
+        threshold: 300,
+        attrPrefix: 'data-shota-snorlax'
+    });
+
+    document.getElementsByClassName('loadAll')[0].onclick = function(){
+        lazy.loadAll();
+    };
 </script>
 </body>
 </html>
