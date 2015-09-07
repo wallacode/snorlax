@@ -15,7 +15,7 @@ __regular:__
 var lazy = new Snorlax();
 ```
 
-## Horizontal Lazy Loas
+## Horizontal Lazy Load
 ### HTML
 ```html
 <div class="carusela">
@@ -39,7 +39,7 @@ var lazy = new Snorlax({
 });
 ```
 
-__Custom options:__
+## Options
 ```javascript
 var lazy = new Snorlax({
 	threshold: 100,
@@ -51,8 +51,6 @@ var lazy = new Snorlax({
 	wrap: 'demo'
 });
 ```
-
-## Options
  Name               | Default        | Description
 --------------------|----------------|-------------------
 threshold           | 400            | number of pixels to load the image
