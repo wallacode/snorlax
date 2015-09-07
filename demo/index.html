@@ -30,18 +30,22 @@
     <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-8.png"></div>
     <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-9.png"></div>
     <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-10.png"></div>
-    <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-11.png"></div>
+    <div class="snorlax" data-snorlax-cb="boom" data-snorlax-alt="bla" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-11.png"></div>
     <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-12.png"></div>
     <div class="snorlax" data-snorlax-alt="bla" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-13.png"></div>
     <div class="snorlax" data-snorlax-src="http://www.walla.co.il"></div>
 
-    <script src="../src/snorlax.js"></script>
+    <script src="../src/snorlax.min.js"></script>
     <script>
         var lazy = new Snorlax();
 
         document.getElementsByClassName('loadAll')[0].onclick = function(){
             lazy.loadAll();
         };
+
+        function boom(){
+            alert('BOOM');
+        }
     </script>
 </body>
 </html>
