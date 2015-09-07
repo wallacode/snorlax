@@ -20,13 +20,13 @@ var lazy = new Snorlax();
 ```html
 <div class="carusela">
 	<ul id="demo">
-		<li><div class="snorlax" data-snorlax-alt="Slide #1"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-1.png"> </div></li>
-		<li><div class="snorlax" data-snorlax-alt="Slide #2"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-2.png"> </div></li>
-		<li><div class="snorlax" data-snorlax-alt="Slide #3"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-3.png"> </div></li>
-		<li><div class="snorlax" data-snorlax-alt="Slide #4"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-4.png"> </div></li>
-		<li><div class="snorlax" data-snorlax-alt="Slide #5"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-5.png"> </div></li>
-		<li><div class="snorlax" data-snorlax-alt="Slide #6"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-6.png"> </div></li>
-		<li><div class="snorlax" data-snorlax-alt="Slide #7"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-7.png"> </div></li>
+		<li><ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY></li>
+		<li><ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY></li>
+		<li><ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY></li>
+		<li><ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY></li>
+		<li><ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY></li>
+		<li><ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY></li>
+		<li><ANY class="snorlax" data-snorlax-alt="bla" data-snorlax-src="pic.jpg"></ANY></li>
 	</ul>
 </div>
 ```
