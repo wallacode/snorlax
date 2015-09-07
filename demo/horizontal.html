@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .carusela {
+            width: 20%;
+            overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .carusela ul {
+            height: 100px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .carusela ul li {
+            height: 100px;
+            width: 100px;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        .carusela ul li img {
+            height: 100px;
+            width: 100px;
+        }
+
+        .carusela ul li:first-child {
+            margin-left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="carusela">
+        <ul id="demo">
+            <li><div class="snorlax" data-snorlax-alt="Slide #1"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-1.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #2"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-2.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #3"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-3.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #4"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-4.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #5"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-5.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #6"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-6.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #7"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-7.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #8"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-8.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #9"  data-snorlax-src="http://www.walla.co.il/images/apple/common-color-9.png"> </div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #10" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-10.png"></div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #11" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-11.png"></div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #12" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-12.png"></div></li>
+            <li><div class="snorlax" data-snorlax-alt="Slide #13" data-snorlax-src="http://www.walla.co.il/images/apple/common-color-13.png"></div></li>
+        </ul>
+    </div>
+
+    <script src="../src/snorlax.js"></script>
+    <script>
+        var lazy = new Snorlax({
+            horizontal: true,
+            wrap: 'demo',
+            threshold: 50
+        });
+    </script>
+</body>
+</html>
