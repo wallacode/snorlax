@@ -1,4 +1,5 @@
 # Snorlax
+![Snorlax](http://cdn.bulbagarden.net/upload/thumb/f/fb/143Snorlax.png/250px-143Snorlax.png)
 §    __Version:__ 1.0.0  
 §    __Author:__ Walla!Code  
 §    __Repo:__ https://github.com/wallacode/snorlax  
