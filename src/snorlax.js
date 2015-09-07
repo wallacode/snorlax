@@ -150,19 +150,23 @@
     function __show(el){
         var obj;
 
-        if (el.type === 'img') {
-            obj = new Image();
-            obj.src = el.src;
-            obj.alt = el.alt;
-            obj.setAttribute('class', 'snorlax-loaded');
+        if (el.cb){
+            window[el.cb](el);
         } else {
-            obj = document.createElement("iframe");
-            obj.src = el.src;
-        }
+            if (el.type === 'img') {
+                obj = new Image();
+                obj.src = el.src;
+                obj.alt = el.alt;
+                obj.setAttribute('class', 'snorlax-loaded');
+            } else {
+                obj = document.createElement("iframe");
+                obj.src = el.src;
+            }
 
-        obj.setAttribute('class', el.el.getAttribute('class').replace(config.cssClassPrefix, config.cssClassPrefix + '-loaded'));
-        el.el.parentNode.insertBefore(obj, el.el);
-        el.el.parentNode.removeChild(el.el);
+            obj.setAttribute('class', el.el.getAttribute('class').replace(config.cssClassPrefix, config.cssClassPrefix + '-loaded'));
+            el.el.parentNode.insertBefore(obj, el.el);
+            el.el.parentNode.removeChild(el.el);
+        }
     }
 
     /**
@@ -195,6 +199,7 @@
             left: HTMLitem.getBoundingClientRect().left,
             src: HTMLitem.getAttribute(config.attrPrefix + '-src'),
             alt: HTMLitem.getAttribute(config.attrPrefix + '-alt'),
+            cb: HTMLitem.getAttribute(config.attrPrefix + '-cb'),
             type: /^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpe?g|gif|png)$/.test(HTMLitem.getAttribute(config.attrPrefix + '-src')) ? 'img' : 'iframe'
         };
     }

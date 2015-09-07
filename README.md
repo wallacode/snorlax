@@ -39,6 +39,19 @@ var lazy = new Snorlax({
 });
 ```
 
+## Callbacks
+If you want you can create youre own loading function, this function will run when its the items time to be loaded
+
+```html
+<ANY class="snorlax" data-snorlax-cb="boom"></ANY>
+```
+
+```javascript
+function boom(e){
+	alert('BOOM');
+}
+```
+
 ## Options
 ```javascript
 var lazy = new Snorlax({
