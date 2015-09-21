@@ -5,6 +5,8 @@
 §    __Author:__ Walla!Code  
 §    __Repo:__ https://github.com/wallacode/snorlax  
 
+This plugin doesn't need jQuery and is totaly standalone, the minified size is 1.86Kb !!!
+
 ## Use
 ### HTML
 ```html
