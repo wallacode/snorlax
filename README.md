@@ -71,8 +71,8 @@ var lazy = new Snorlax({
 threshold           | 400            | number of pixels to load the image
 attrPrefix          | 'data-snorlax' | prefix for the attrs on the html
 cssClassPrefix      | 'snorlax'      | prefix for the css classes
-scrollDelta         | 100            | the interval for the scroll event, 0 for every scroll event
-event               | 'scroll'       | which event to fire the loading
+scrollDelta         | 100            | (px) the interval for the scroll event, 0 for every scroll event
+event               | 'scroll'       | which event will trigger the loading
 horizontal          | false          | will set the lazy loader to work horizontaly
 wrap                | ''             | ID of the wrapper of the horizontal scroll, in the most of the times it will be a UL ID
 
