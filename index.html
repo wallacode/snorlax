@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Snorlax by wallacode</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Snorlax</h1>
+        <p>Snorlax is lightweight standalone lazy loading library - lazy loading as it meant to be.</p>
+
+        <p class="view"><a href="https://github.com/wallacode/snorlax">View the Project on GitHub <small>wallacode/snorlax</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/wallacode/snorlax/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/wallacode/snorlax/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/wallacode/snorlax">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="snorlax" class="anchor" href="#snorlax" aria-hidden="true"><span class="octicon octicon-link"></span></a>Snorlax</h1>
+
+<p><img src="http://cdn.bulbagarden.net/upload/thumb/f/fb/143Snorlax.png/250px-143Snorlax.png" alt="Snorlax"></p>
+
+<p>§    <strong>Version:</strong> 1.0.0<br>
+§    <strong>Author:</strong> Walla!Code<br>
+§    <strong>Repo:</strong> <a href="https://github.com/wallacode/snorlax">https://github.com/wallacode/snorlax</a>  </p>
+
+<p>This plugin doesn't need jQuery and is totaly standalone, the minified size is 1.86Kb !!!</p>
+
+<h2>
+<a id="use" class="anchor" href="#use" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use</h2>
+
+<h3>
+<a id="html" class="anchor" href="#html" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTML</h3>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-alt</span>=<span class="pl-s"><span class="pl-pds">"</span>bla<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-src</span>=<span class="pl-s"><span class="pl-pds">"</span>pic.jpg<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;</pre></div>
+
+<h3>
+<a id="javascript" class="anchor" href="#javascript" aria-hidden="true"><span class="octicon octicon-link"></span></a>Javascript</h3>
+
+<p><strong>regular:</strong></p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> lazy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Snorlax</span>();</pre></div>
+
+<h2>
+<a id="horizontal-lazy-load" class="anchor" href="#horizontal-lazy-load" aria-hidden="true"><span class="octicon octicon-link"></span></a>Horizontal Lazy Load</h2>
+
+<h3>
+<a id="html-1" class="anchor" href="#html-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTML</h3>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>carusela<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">ul</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>demo<span class="pl-pds">"</span></span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-alt</span>=<span class="pl-s"><span class="pl-pds">"</span>bla<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-src</span>=<span class="pl-s"><span class="pl-pds">"</span>pic.jpg<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;&lt;/<span class="pl-ent">li</span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-alt</span>=<span class="pl-s"><span class="pl-pds">"</span>bla<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-src</span>=<span class="pl-s"><span class="pl-pds">"</span>pic.jpg<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;&lt;/<span class="pl-ent">li</span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-alt</span>=<span class="pl-s"><span class="pl-pds">"</span>bla<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-src</span>=<span class="pl-s"><span class="pl-pds">"</span>pic.jpg<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;&lt;/<span class="pl-ent">li</span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-alt</span>=<span class="pl-s"><span class="pl-pds">"</span>bla<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-src</span>=<span class="pl-s"><span class="pl-pds">"</span>pic.jpg<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;&lt;/<span class="pl-ent">li</span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-alt</span>=<span class="pl-s"><span class="pl-pds">"</span>bla<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-src</span>=<span class="pl-s"><span class="pl-pds">"</span>pic.jpg<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;&lt;/<span class="pl-ent">li</span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-alt</span>=<span class="pl-s"><span class="pl-pds">"</span>bla<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-src</span>=<span class="pl-s"><span class="pl-pds">"</span>pic.jpg<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;&lt;/<span class="pl-ent">li</span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-alt</span>=<span class="pl-s"><span class="pl-pds">"</span>bla<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-src</span>=<span class="pl-s"><span class="pl-pds">"</span>pic.jpg<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;&lt;/<span class="pl-ent">li</span>&gt;
+    &lt;/<span class="pl-ent">ul</span>&gt;
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<h3>
+<a id="javascript-1" class="anchor" href="#javascript-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Javascript</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> lazy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Snorlax</span>({
+    horizontal<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    wrap<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>demo<span class="pl-pds">'</span></span>
+});</pre></div>
+
+<h2>
+<a id="callbacks" class="anchor" href="#callbacks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Callbacks</h2>
+
+<p>If you want you can create youre own loading function, this function will run when its the items time to be loaded</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">ANY</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>snorlax<span class="pl-pds">"</span></span> <span class="pl-e">data-snorlax-cb</span>=<span class="pl-s"><span class="pl-pds">"</span>boom<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">ANY</span>&gt;</pre></div>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">function</span> <span class="pl-en">boom</span>(<span class="pl-smi">e</span>){
+    <span class="pl-c1">alert</span>(<span class="pl-s"><span class="pl-pds">'</span>BOOM<span class="pl-pds">'</span></span>);
+}</pre></div>
+
+<h2>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h2>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> lazy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Snorlax</span>({
+    threshold<span class="pl-k">:</span> <span class="pl-c1">100</span>,
+    attrPrefix<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>data-snorlax<span class="pl-pds">'</span></span>,
+    cssClassPrefix<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>snorlax<span class="pl-pds">'</span></span>,
+    scrollDelta<span class="pl-k">:</span> <span class="pl-c1">0</span>,
+    <span class="pl-c1">event</span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>scroll<span class="pl-pds">'</span></span>,
+    horizontal<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    wrap<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>demo<span class="pl-pds">'</span></span>
+});</pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>threshold</td>
+<td>400</td>
+<td>number of pixels to load the image</td>
+</tr>
+<tr>
+<td>attrPrefix</td>
+<td>'data-snorlax'</td>
+<td>prefix for the attrs on the html</td>
+</tr>
+<tr>
+<td>cssClassPrefix</td>
+<td>'snorlax'</td>
+<td>prefix for the css classes</td>
+</tr>
+<tr>
+<td>scrollDelta</td>
+<td>100</td>
+<td>(px) the interval for the scroll event, 0 for every scroll event</td>
+</tr>
+<tr>
+<td>event</td>
+<td>'scroll'</td>
+<td>which event will trigger the loading</td>
+</tr>
+<tr>
+<td>horizontal</td>
+<td>false</td>
+<td>will set the lazy loader to work horizontaly</td>
+</tr>
+<tr>
+<td>wrap</td>
+<td>''</td>
+<td>ID of the wrapper of the horizontal scroll, in the most of the times it will be a UL ID</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<p><strong>loadAll()</strong>
+will load all the objects.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> lazy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Snorlax</span>();
+...
+lazy.loadAll();</pre></div>
+
+<p><strong>refreshConfig(config)</strong>
+change the config of Snorlax.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> lazy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Snorlax</span>();
+...
+lazy.refreshConfig({
+  threshold<span class="pl-k">:</span> <span class="pl-c1">300</span>,
+  attrPrefix<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>data-shota-snorlax<span class="pl-pds">'</span></span>
+});</pre></div>
+
+<p><strong>stop()</strong>
+stop Snorlax</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> lazy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Snorlax</span>();
+...
+lazy.<span class="pl-c1">stop</span>();</pre></div>
+
+<p><strong>start()</strong>
+start Snorlax</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> lazy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Snorlax</span>();
+...
+lazy.<span class="pl-c1">start</span>();</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/wallacode">wallacode</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
