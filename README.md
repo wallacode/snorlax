@@ -7,6 +7,9 @@
 
 This plugin doesn't need jQuery and is totaly standalone, the minified size is 1.86Kb !!!
 
+## Demo Page
+[Demo Page](https://wallacode.github.io/snorlax/)
+
 ## Use
 ### HTML
 ```html
