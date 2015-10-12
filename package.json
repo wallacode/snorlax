@@ -1,0 +1,19 @@
+{
+  "name": "snorlax",
+  "version": "1.0.0",
+  "description": "light weight lazy loading plugin",
+  "main": "src/snorlax.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wallacode/snorlax.git"
+  },
+  "keywords": [
+    "lazy",
+    "loading"
+  ],
+  "author": "WallaCode -- Shota Papiashvili  (http://www.walla.co.il/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wallacode/snorlax/issues"
+  }
+}
