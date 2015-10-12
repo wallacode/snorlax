@@ -7,6 +7,11 @@
 
 This plugin doesn't need jQuery and is totaly standalone, the minified size is 1.86Kb !!!
 
+## install from npm
+```javascript
+npm install -g snorlax
+```
+
 ## Demo Page
 [Demo Page](https://wallacode.github.io/snorlax/)
 
