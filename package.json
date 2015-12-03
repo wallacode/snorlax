@@ -1,6 +1,6 @@
 {
   "name": "snorlax",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "light weight lazy loading plugin",
   "main": "src/snorlax.min.js",
   "repository": {
