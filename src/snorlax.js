@@ -164,8 +164,16 @@
             }
 
             obj.setAttribute('class', el.el.getAttribute('class').replace(config.cssClassPrefix, config.cssClassPrefix + '-loaded'));
-            el.el.parentNode.insertBefore(obj, el.el);
-            el.el.parentNode.removeChild(el.el);
+
+            if (el.type === 'img') {
+                obj.onload = function(){
+                    el.el.parentNode.insertBefore(obj, el.el);
+                    el.el.style.display = 'none';
+                };
+            } else {
+                el.el.parentNode.insertBefore(obj, el.el);
+                el.el.style.display = 'none';
+            }
         }
     }
 
