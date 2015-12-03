@@ -165,10 +165,15 @@
 
             obj.setAttribute('class', el.el.getAttribute('class').replace(config.cssClassPrefix, config.cssClassPrefix + '-loaded'));
 
-            obj.onload = function(){
+            if (el.type === 'img') {
+                obj.onload = function(){
+                    el.el.parentNode.insertBefore(obj, el.el);
+                    el.el.style.display = 'none';
+                };
+            } else {
                 el.el.parentNode.insertBefore(obj, el.el);
                 el.el.style.display = 'none';
-            };
+            }
         }
     }
 
