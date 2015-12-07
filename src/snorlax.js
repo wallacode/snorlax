@@ -164,6 +164,15 @@
             }
 
             obj.setAttribute('class', el.el.getAttribute('class').replace(config.cssClassPrefix, config.cssClassPrefix + '-loaded'));
+            var otherAttributes = el.el.dataset;
+            var prefix = config.attrPrefix.replace('data-','').replace(/-/g, '');
+            for (var att in otherAttributes){
+                if( otherAttributes.hasOwnProperty( att ) && [prefix+'src',prefix+'alt',prefix+'cb'].indexOf(att.toLowerCase()) === -1 ) {
+                    obj.setAttribute(att,otherAttributes[att]);
+                }
+            }
+
+
 
             if (el.type === 'img') {
                 obj.onload = function(){
