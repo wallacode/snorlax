@@ -192,7 +192,7 @@
      * @private
      */
     function __getDocumentBottomScroll(){
-        return document.body.scrollTop + _.innerHeight;
+        return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop + _.innerHeight;
     }
 
     /**
