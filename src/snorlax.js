@@ -71,9 +71,10 @@
         } else {
             var wrapper = document.getElementById(config.wrap);
 
-            q = []
-                .slice.call(wrapper.getElementsByClassName(config.cssClassPrefix))
-                .map(__getObjectFromHTMLCollection);
+            q = [].slice.call(wrapper.getElementsByClassName(config.cssClassPrefix));
+
+            for (var i = 0; i < q.length; i++)
+                q[i] = __getObjectFromHTMLCollection(q[i]);
 
             var lastScroll = __getEndOfWrapper();
 
