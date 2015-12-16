@@ -135,16 +135,21 @@
      */
     function __load(scroll){
         for(;isOn && q.length;){
+            updateEdgePosition();
             if (!config.horizontal) {
                 if (q[0].top - config.threshold < scroll) {
                     __show(q[0]);
                     q.shift();
-                } else return;
+                } else {
+                    return;
+                }
             } else {
                 if (q[0].left - config.threshold < scroll) {
                     __show(q[0]);
                     q.shift();
-                } else return;
+                } else {
+                    return;
+                }
             }
         }
     }
@@ -308,5 +313,12 @@
                     return i;
             return -1;
         };
+    }
+
+    function updateEdgePosition() {
+        if (q.length) {
+            q[0].top = q[0].el.getBoundingClientRect().top;
+            q[0].left = q[0].el.getBoundingClientRect().left;
+        }
     }
 }(window));
