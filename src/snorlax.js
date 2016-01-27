@@ -37,6 +37,12 @@
             wrap: ''
         },
 
+        /**
+         * current position of the HEAD in the search scope
+         * @type {number}
+         */
+        HEAD = 0,
+
         isOn = true
         ;
     /**
@@ -48,33 +54,30 @@
             this.refreshConfig(_config);
         }
 
-        var elems;
-
         if (!('indexOf' in Array.prototype)) {
             __addIndexOfToArrayPrototype();
         }
 
-        elems = __getElementsByClassName(config.cssClassPrefix);
-
-        q = __nodeListToArray(elems);
+        q = __nodeListToArray(__getElementsByClassName(config.cssClassPrefix));
 
         if (!config.horizontal) {
             for (var i = 0; i < q.length; i++)
                 q[i] = __getObjectFromHTMLCollection(q[i]);
 
+            HEAD = __findInitialHead();
+
             var lastScroll = __getDocumentBottomScroll();
 
             var action = function() {
                 var t = __getDocumentBottomScroll();
-                if (t + config.loadDelta >= lastScroll) {
+                if (Math.abs(t - lastScroll) >= config.loadDelta) {
                     lastScroll = t;
-                    __load(t);
+                    __load();
                 }
             };
             __eventListener(_,config.event,action);
-            __load(lastScroll);
+            __load();
         } else {
-
             var wrapper = document.getElementById(config.wrap);
 
             for (var i = 0; i < q.length; i++)
@@ -135,7 +138,6 @@
      */
     function __load(scroll){
         for(;isOn && q.length;){
-            updateEdgePosition();
             if (!config.horizontal) {
                 if (q[0].top - config.threshold < scroll) {
                     __show(q[0]);
@@ -144,6 +146,7 @@
                     return;
                 }
             } else {
+                __updateEdgePosition();
                 if (q[0].left - config.threshold < scroll) {
                     __show(q[0]);
                     q.shift();
@@ -212,6 +215,15 @@
     }
 
     /**
+     * return the height of the top of view port
+     * @returns {number}
+     * @private
+     */
+    function __getDocumentTopScroll(){
+        return (document.documentElement && document.documentElement.scrollTop) ? document.documentElement.scrollTop : document.body.scrollTop;
+    }
+
+    /**
      * If we are using the horizontal loading this function will return us the end of the wrapper
      * @private
      */
@@ -233,7 +245,7 @@
             src: HTMLitem.getAttribute(config.attrPrefix + '-src'),
             alt: HTMLitem.getAttribute(config.attrPrefix + '-alt'),
             cb: HTMLitem.getAttribute(config.attrPrefix + '-cb'),
-            type: /^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpe?g|gif|png)$/.test(HTMLitem.getAttribute(config.attrPrefix + '-src')) ? 'img' : 'iframe'
+            type: /^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpe?g|gif|png)$/i.test(HTMLitem.getAttribute(config.attrPrefix + '-src')) ? 'img' : 'iframe'
         };
     }
 
@@ -315,10 +327,33 @@
         };
     }
 
-    function updateEdgePosition() {
-        if (q.length) {
-            q[0].top = q[0].el.getBoundingClientRect().top;
-            q[0].left = q[0].el.getBoundingClientRect().left;
+    /**
+     * update the position of the item in the i'th position
+     * @param i
+     * @private
+     */
+    function __updateEdgePosition(i) {
+        i = i || HEAD;
+
+        if (q.length && i > -1 && q.length > i) {
+            q[i].top = q[i].el.getBoundingClientRect().top;
+            q[i].left = q[i].el.getBoundingClientRect().left;
         }
+    }
+
+    /**
+     * calc the inital position of the HEAD
+     *
+     * @returns {number}
+     * @private
+     */
+    function __findInitialHead(){
+        var t = __getDocumentTopScroll();
+
+        for (var i = 0; i < q.length; i++) {
+            if (q[i].top > t)
+                return i;
+        }
+        return -1;
     }
 }(window));
