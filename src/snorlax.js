@@ -54,17 +54,23 @@
             this.refreshConfig(_config);
         }
 
+        var elems;
+
         if (!('indexOf' in Array.prototype)) {
             __addIndexOfToArrayPrototype();
         }
 
-        q = __nodeListToArray(__getElementsByClassName(config.cssClassPrefix));
+        elems = __getElementsByClassName(config.cssClassPrefix);
+
+        q = __nodeListToArray(elems);
 
         if (!config.horizontal) {
             for (var i = 0; i < q.length; i++)
                 q[i] = __getObjectFromHTMLCollection(q[i]);
 
             HEAD = __findInitialHead();
+
+            console.log(HEAD);
 
             var lastScroll = __getDocumentBottomScroll();
 
@@ -139,13 +145,22 @@
     function __load(scroll){
         for(;isOn && q.length;){
             if (!config.horizontal) {
-                if (q[0].top - config.threshold < scroll) {
-                    __show(q[0]);
-                    q.shift();
+                var upperbound = __getDocumentTopScroll() - config.threshold;
+                var lowerbound = __getDocumentBottomScroll() + config.threshold;
+                console.log(q[HEAD].top,upperbound,q[HEAD].bottom,lowerbound);
+                if (q[HEAD].top > upperbound && q[HEAD].bottom < lowerbound) {
+                    __show(q[HEAD]);
+                    q.splice(HEAD,1);
+                    if (HEAD > q.length - 1 ) HEAD--;
+                } else if (HEAD > 0 && q[HEAD-1].top > upperbound && q[HEAD-1].bottom < lowerbound) {
+                        __show(q[HEAD - 1]);
+                        q.splice(HEAD - 1, 1);
+                        if (HEAD > q.length - 1 ) HEAD--;
                 } else {
                     return;
                 }
-            } else {
+            }
+            else {
                 __updateEdgePosition();
                 if (q[0].left - config.threshold < scroll) {
                     __show(q[0]);
@@ -239,13 +254,14 @@
      */
     function __getObjectFromHTMLCollection(HTMLitem){
         return {
-            el: HTMLitem,
-            top: HTMLitem.getBoundingClientRect().top,
-            left: HTMLitem.getBoundingClientRect().left,
-            src: HTMLitem.getAttribute(config.attrPrefix + '-src'),
-            alt: HTMLitem.getAttribute(config.attrPrefix + '-alt'),
-            cb: HTMLitem.getAttribute(config.attrPrefix + '-cb'),
-            type: /^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpe?g|gif|png)$/i.test(HTMLitem.getAttribute(config.attrPrefix + '-src')) ? 'img' : 'iframe'
+            el      : HTMLitem,
+            top     : HTMLitem.getBoundingClientRect().top + __getDocumentTopScroll(),
+            left    : HTMLitem.getBoundingClientRect().left,
+            bottom  : HTMLitem.getBoundingClientRect().bottom + __getDocumentTopScroll(),
+            src     : HTMLitem.getAttribute(config.attrPrefix + '-src'),
+            alt     : HTMLitem.getAttribute(config.attrPrefix + '-alt'),
+            cb      : HTMLitem.getAttribute(config.attrPrefix + '-cb'),
+            type    : /^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpe?g|gif|png)$/i.test(HTMLitem.getAttribute(config.attrPrefix + '-src')) ? 'img' : 'iframe'
         };
     }
 
@@ -350,10 +366,12 @@
     function __findInitialHead(){
         var t = __getDocumentTopScroll();
 
+
         for (var i = 0; i < q.length; i++) {
             if (q[i].top > t)
                 return i;
         }
         return -1;
     }
+
 }(window));
