@@ -31,7 +31,7 @@
             threshold: 600,
             attrPrefix: 'data-snorlax',
             cssClassPrefix: 'snorlax',
-            loadDelta: 600,
+            scrollDelta: 600,
             event: 'scroll',
             horizontal: false,
             wrap: ''
@@ -68,16 +68,11 @@
             for (var i = 0; i < q.length; i++)
                 q[i] = __getObjectFromHTMLCollection(q[i]);
 
-            HEAD = __findInitialHead();
-
-            console.log('head:',HEAD);
-            console.log('q:',q);
-
             var lastScroll = __getDocumentBottomScroll();
 
             var action = function() {
                 var t = __getDocumentBottomScroll();
-                if (Math.abs(t - lastScroll) >= config.loadDelta) {
+                if (Math.abs(t - lastScroll) >= config.scrollDelta) {
                     lastScroll = t;
                     __load();
                 }
@@ -144,20 +139,27 @@
      * @private
      */
     function __load(scroll){
+        HEAD = HEAD || __findInitialHead();
+
         for(;isOn && q.length;){
             if (!config.horizontal) {
                 var upperbound = __getDocumentTopScroll() - config.threshold;
                 var lowerbound = __getDocumentBottomScroll() + config.threshold;
+
                 __updateEdgePosition(HEAD);
                 __updateEdgePosition(HEAD-1);
+
                 if (q[HEAD].top > upperbound && q[HEAD].bottom < lowerbound) {
                     __show(q[HEAD]);
                     q.splice(HEAD,1);
-                    if (HEAD > q.length - 1 ) HEAD--;
-                } else if (HEAD > 0 && q[HEAD-1].top > upperbound && q[HEAD-1].bottom < lowerbound) {
-                        __show(q[HEAD - 1]);
-                        q.splice(HEAD - 1, 1);
+
+                    if (HEAD > q.length - 1 ) {
                         HEAD--;
+                    }
+                } else if (HEAD > 0 && q[HEAD-1].top > upperbound && q[HEAD-1].bottom < lowerbound) {
+                    __show(q[HEAD - 1]);
+                    q.splice(HEAD - 1, 1);
+                    HEAD--;
                 } else {
                     return;
                 }
@@ -228,7 +230,7 @@
      */
     function __getDocumentBottomScroll(){
         var innerHeight = _.innerHeight || document.documentElement.clientHeight;
-        return (document.documentElement && document.documentElement.scrollTop) ? document.documentElement.scrollTop + innerHeight : document.body.scrollTop + innerHeight;
+        return __getDocumentTopScroll() + innerHeight;
     }
 
     /**
@@ -367,7 +369,6 @@
      */
     function __findInitialHead(){
         var t = __getDocumentTopScroll();
-
 
         for (var i = 0; i < q.length; i++) {
             if (q[i].top > t)
