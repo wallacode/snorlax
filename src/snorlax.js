@@ -31,7 +31,7 @@
             threshold: 600,
             attrPrefix: 'data-snorlax',
             cssClassPrefix: 'snorlax',
-            loadDelta: 1000,
+            loadDelta: 600,
             event: 'scroll',
             horizontal: false,
             wrap: ''
@@ -70,7 +70,8 @@
 
             HEAD = __findInitialHead();
 
-            console.log(HEAD);
+            console.log('head:',HEAD);
+            console.log('q:',q);
 
             var lastScroll = __getDocumentBottomScroll();
 
@@ -147,7 +148,8 @@
             if (!config.horizontal) {
                 var upperbound = __getDocumentTopScroll() - config.threshold;
                 var lowerbound = __getDocumentBottomScroll() + config.threshold;
-                console.log(q[HEAD].top,upperbound,q[HEAD].bottom,lowerbound);
+                __updateEdgePosition(HEAD);
+                __updateEdgePosition(HEAD-1);
                 if (q[HEAD].top > upperbound && q[HEAD].bottom < lowerbound) {
                     __show(q[HEAD]);
                     q.splice(HEAD,1);
@@ -155,7 +157,7 @@
                 } else if (HEAD > 0 && q[HEAD-1].top > upperbound && q[HEAD-1].bottom < lowerbound) {
                         __show(q[HEAD - 1]);
                         q.splice(HEAD - 1, 1);
-                        if (HEAD > q.length - 1 ) HEAD--;
+                        HEAD--;
                 } else {
                     return;
                 }
@@ -352,7 +354,7 @@
         i = i || HEAD;
 
         if (q.length && i > -1 && q.length > i) {
-            q[i].top = q[i].el.getBoundingClientRect().top;
+            q[i].top = q[i].el.getBoundingClientRect().top + __getDocumentTopScroll();
             q[i].left = q[i].el.getBoundingClientRect().left;
         }
     }
@@ -371,7 +373,7 @@
             if (q[i].top > t)
                 return i;
         }
-        return -1;
+        return q.length - 1;
     }
 
 }(window));
