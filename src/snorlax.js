@@ -34,7 +34,8 @@
             scrollDelta: 600,
             event: 'scroll',
             horizontal: false,
-            wrap: ''
+            wrap: '',
+            cb: []
         },
 
         /**
@@ -72,6 +73,7 @@
 
             var action = function() {
                 var t = __getDocumentBottomScroll();
+                __runCallbacks(config.cb,t,lastScroll);
                 if (Math.abs(t - lastScroll) >= config.scrollDelta) {
                     lastScroll = t;
                     __load();
@@ -93,8 +95,8 @@
             };
 
             __eventListener(wrapper.parentElement,config.event,action);
-
             __load(lastScroll);
+            __runCallbacks(config.cb,lastScroll,lastScroll);
         }
     };
 
@@ -132,6 +134,24 @@
     _.Snorlax.prototype.stop = function(){
         isOn = false;
     };
+
+    /**
+     * Add custom callbacks to Snorlax
+     *
+     * @param cb
+     */
+    _.Snorlax.prototype.addCallback = function(cb){
+        if (config.cb.constructor === Array) {
+            config.cb.push(cb);
+        }
+        if (typeof config.cb === 'function') {
+            config.cb = [config.cb, cb];
+        }
+        if (typeof config.cb === 'undefined') {
+            config.cb = cb;
+        }
+    };
+
 
     /**
      * load all the images from the scrollHight
@@ -376,5 +396,29 @@
         }
         return q.length - 1;
     }
+
+    /**
+     * run custom added callbacks.
+     *
+     * @param cb
+     * @param position
+     * @param lastScroll
+     * @private
+     */
+    function __runCallbacks(cb,position,lastScroll) {
+        if (typeof cb === 'function') {
+            cb(position,lastScroll);
+        }
+        else {
+            if (cb.constructor === Array) {
+                for (var i = 0; i < cb.length; i++) {
+                    if (typeof cb[i] === 'function') {
+                        cb[i](position,lastScroll);
+                    }
+                }
+            }
+        }
+    }
+
 
 }(window));
