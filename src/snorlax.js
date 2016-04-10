@@ -145,16 +145,6 @@
     };
 
     /**
-     * Add custom callbacks to the show event of Snorlax
-     *
-     * @param cb
-     */
-    _.Snorlax.prototype.addShowCallback = function(cb){
-        config.scrollCB = __addCB(cb, config.showCB);
-    };
-
-
-    /**
      * abstract add cb
      * @param cb    the callbacl to add
      * @param cbDestination the destination array
