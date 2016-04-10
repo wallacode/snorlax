@@ -52,16 +52,39 @@ var lazy = new Snorlax({
 ```
 
 ## Callbacks
-If you want you can create youre own loading function, this function will run when its the items time to be loaded
+We have 2 kinds of callbacks: show callbacks ans scroll callbacks
+
+### Scroll Callbacks
+will fire on every scroll, the callback gets object with current and prev scroll locations
+```javascript
+var lazy = new Snorlax({
+    scrollCB: function(obj){ console.log(obj); }
+});
+```
+also supports multiple callbacks:
+```javascript
+var lazy = new Snorlax({
+    scrollCB: [
+        function(obj){ console.log(obj); },
+        function(obj){ alert(obj); }
+    ]
+});
+```
+
+### Show Callbacks
+we can supply multiple callbacks and on the show event the selected callback will file
 
 ```html
-<ANY class="snorlax" data-snorlax-cb="boom"></ANY>
+<ANY class="snorlax" data-snorlax-cb="first"></ANY>
 ```
 
 ```javascript
-function boom(e){
-	alert('BOOM');
-}
+var lazy = new Snorlax({
+    showCB: {
+        'first': function(obj){ console.log(obj); },
+        'second': function(obj){ alert(obj); }
+    }
+});
 ```
 
 ## Options
@@ -85,7 +108,8 @@ scrollDelta         | 100            | (px) the interval for the scroll event, 0
 event               | 'scroll'       | which event will trigger the loading
 horizontal          | false          | will set the lazy loader to work horizontaly
 wrap                | ''             | ID of the wrapper of the horizontal scroll, in the most of the times it will be a UL ID
-
+scrollCB            | function/array | see section about callbacks
+showCB              | object         | see section about callbacks
 
 ## Methods
 
@@ -123,3 +147,6 @@ var lazy = new Snorlax();
 ...
 lazy.start();
 ```
+
+__addScrollCallback(cb)__
+Add callback to the scroll callbacks array

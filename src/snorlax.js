@@ -35,7 +35,8 @@
             event: 'scroll',
             horizontal: false,
             wrap: '',
-            cb: []
+            scrollCB: [],
+            showCB: []
         },
 
         /**
@@ -57,12 +58,9 @@
 
         var elems;
 
-        if (!('indexOf' in Array.prototype)) {
-            __addIndexOfToArrayPrototype();
-        }
+        if (!('indexOf' in Array.prototype)) __addIndexOfToArrayPrototype(); // IE8 bugfix
 
         elems = __getElementsByClassName(config.cssClassPrefix);
-
         q = __nodeListToArray(elems);
 
         if (!config.horizontal) {
@@ -73,13 +71,16 @@
 
             var action = function() {
                 var t = __getDocumentBottomScroll();
-                __runCallbacks(config.cb,t,lastScroll);
+                __runCallbacks(config.scrollCB, {'current': t, 'prev': lastScroll});
+
                 if (Math.abs(t - lastScroll) >= config.scrollDelta) {
                     lastScroll = t;
                     __load();
                 }
             };
-            __eventListener(_,config.event,action);
+
+            __eventListener(_, config.event, action);
+            __runCallbacks(config.scrollCB, {'current': lastScroll, 'prev': lastScroll});
             __load();
         } else {
             var wrapper = document.getElementById(config.wrap);
@@ -96,7 +97,6 @@
 
             __eventListener(wrapper.parentElement,config.event,action);
             __load(lastScroll);
-            __runCallbacks(config.cb,lastScroll,lastScroll);
         }
     };
 
@@ -136,21 +136,26 @@
     };
 
     /**
-     * Add custom callbacks to Snorlax
+     * Add custom callbacks to the scroll of Snorlax
      *
      * @param cb
      */
-    _.Snorlax.prototype.addCallback = function(cb){
-        if (config.cb.constructor === Array) {
-            config.cb.push(cb);
-        }
-        if (typeof config.cb === 'function') {
-            config.cb = [config.cb, cb];
-        }
-        if (typeof config.cb === 'undefined') {
-            config.cb = cb;
-        }
+    _.Snorlax.prototype.addScrollCallback = function(cb){
+        config.scrollCB = __addCB(cb, config.scrollCB);
     };
+
+    /**
+     * abstract add cb
+     * @param cb    the callbacl to add
+     * @param cbDestination the destination array
+     * @returns the final destination
+     * @private
+     */
+    function __addCB(cb, cbDestination){
+        if (cbDestination.constructor === Array)    { return cbDestination.push(cb); }
+        if (typeof cbDestination === 'function')    { return [cbDestination, cb]; }
+        if (typeof cbDestination === 'undefined')   { return cb; }
+    }
 
 
     /**
@@ -204,42 +209,40 @@
     function __show(el){
         var obj, res;
 
-        if (el.cb){
-            res = window[el.cb](el);
+        if (el.cb){     // if we have callback, run it
+            res = config.showCB[el.cb](el);
         }
 
-        if (!el.cb || res) {
-            if (el.type === 'img') {
-                obj = new Image();
-                obj.src = res || el.src;
-                obj.alt = el.alt;
-                obj.setAttribute('class', 'snorlax-loaded');
-            } else {
-                obj = document.createElement("iframe");
-                obj.src = el.src;
-            }
+        if (el.type === 'img') {
+            obj = new Image();
+            obj.src = res || el.src;
+            obj.alt = el.alt;
+            obj.setAttribute('class', 'snorlax-loaded');
+        } else {
+            obj = document.createElement("iframe");
+            obj.src = el.src;
+        }
 
-            obj.setAttribute('class', el.el.getAttribute('class').replace(config.cssClassPrefix, config.cssClassPrefix + '-loaded'));
-            var otherAttributes = el.el.dataset || __getDataAttributes(el.el);
-            var prefix = config.attrPrefix.replace(/^data-/,'').replace(/-/g, '');
-            for (var att in otherAttributes){
-                if( otherAttributes.hasOwnProperty( att ) && [prefix+'src',prefix+'alt',prefix+'cb'].indexOf(att.toLowerCase()) === -1 ) {
-                    if (obj.dataset)
-                        obj.dataset[att] = otherAttributes[att];
-                    else
-                        obj.setAttribute('data-'+att.replace(/[a-z][A-Z][a-z]/g, function(word, pos) { return word.substr(0,1)+'-'+word.substr(1).toLowerCase() }),otherAttributes[att]);
-                }
+        obj.setAttribute('class', el.el.getAttribute('class').replace(config.cssClassPrefix, config.cssClassPrefix + '-loaded'));
+        var otherAttributes = el.el.dataset || __getDataAttributes(el.el);
+        var prefix = config.attrPrefix.replace(/^data-/,'').replace(/-/g, '');
+        for (var att in otherAttributes){
+            if( otherAttributes.hasOwnProperty( att ) && [prefix+'src',prefix+'alt',prefix+'cb'].indexOf(att.toLowerCase()) === -1 ) {
+                if (obj.dataset)
+                    obj.dataset[att] = otherAttributes[att];
+                else
+                    obj.setAttribute('data-'+att.replace(/[a-z][A-Z][a-z]/g, function(word, pos) { return word.substr(0,1)+'-'+word.substr(1).toLowerCase() }),otherAttributes[att]);
             }
+        }
 
-            if (el.type === 'img') {
-                obj.onload = function(){
-                    el.el.parentNode.insertBefore(obj, el.el);
-                    el.el.style.display = 'none';
-                };
-            } else {
+        if (el.type === 'img') {
+            obj.onload = function(){
                 el.el.parentNode.insertBefore(obj, el.el);
                 el.el.style.display = 'none';
-            }
+            };
+        } else {
+            el.el.parentNode.insertBefore(obj, el.el);
+            el.el.style.display = 'none';
         }
     }
 
@@ -313,10 +316,12 @@
      */
     function __nodeListToArray(elems) {
         var elems_array = [];
+
         for (var i = 0; i < elems.length; i++) {
             elems_array.push(elems[i]);
         }
-        return elems_array
+
+        return elems_array;
     }
 
     /**
@@ -405,20 +410,23 @@
      * @param lastScroll
      * @private
      */
-    function __runCallbacks(cb,position,lastScroll) {
+    function __runCallbacks(cb, params) {
         if (typeof cb === 'function') {
-            cb(position,lastScroll);
+            cb(params);
         }
         else {
             if (cb.constructor === Array) {
                 for (var i = 0; i < cb.length; i++) {
                     if (typeof cb[i] === 'function') {
-                        cb[i](position,lastScroll);
+                        cb[i](params);
+                    } else {
+                        throw 'A callback must be function';
                     }
                 }
+            } else {
+                throw 'callback must be a function or array of functions';
             }
         }
     }
-
 
 }(window));
