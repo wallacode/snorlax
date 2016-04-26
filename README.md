@@ -1,4 +1,7 @@
 # Snorlax
+
+Snorlax is lightweight standalone lazy loading library - lazy loading as it meant to be.
+
 ![Snorlax](http://cdn.bulbagarden.net/upload/thumb/f/fb/143Snorlax.png/250px-143Snorlax.png)
 
 §    __Version:__ 1.0.0  
