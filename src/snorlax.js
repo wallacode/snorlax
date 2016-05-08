@@ -30,7 +30,7 @@
          * @type {Object}
          */
         config = {
-            bucketSize : 200,
+            bucketSize : 400,
             bucketThreshold: 1,
             attrPrefix: 'data-snorlax',
             cssClassPrefix: 'snorlax',
@@ -66,7 +66,6 @@
                 q[i] = __getObjectFromHTMLCollection(q[i]);
 
             __bucketSortElements(q);
-
 
             var lastScroll = __getDocumentBottomScroll();
 
@@ -105,9 +104,9 @@
      * Load all the objects
      */
     _.Snorlax.prototype.loadAll = function(){
-        for(;q.length;){
-            __show(q[0]);
-            q.shift();
+        for(;buckets.length;){
+            __showBucket(buckets[0]);
+            buckets.shift();
         }
     };
 
@@ -392,13 +391,13 @@
         var body = document.body,
             html = document.documentElement;
 
-        var height = Math.max( body.scrollHeight, body.offsetHeight,
-            html.clientHeight, html.scrollHeight, html.offsetHeight );
+        var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
 
         var numOfBuckets = Math.ceil(height / config.bucketSize);
 
         for (var i=0; i<numOfBuckets; i++) {
             buckets[i] = {
+                _id: i,
                 loaded      : false,
                 elements    : []
             };
