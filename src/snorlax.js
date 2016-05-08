@@ -5,10 +5,10 @@
  ..######..##.##.##.##.....##.########..##.......##.....##....###...
  .......##.##..####.##.....##.##...##...##.......#########...##.##..
  .##....##.##...###.##.....##.##....##..##.......##.....##..##...##.
- ..######..##....##..#######..##.....##.### #####.##.....##.##.....##
+ ..######..##....##..#######..##.....##.########.##.....##.##.....##
 
  light weight lazy loading plugin
- § Version:     1.0.0
+ § Version:     2.0.1
  § Author:      Walla!Code (walla.co.il)
  § Repo:        https://github.com/wallacode/snorlax
  */
@@ -155,7 +155,7 @@
      * @private
      */
     function __addCB(cb, cbDestination){
-        if (cbDestination.constructor === Array)    { return cbDestination.push(cb); }
+        if (cbDestination.constructor === Array)    { cbDestination.push(cb); return cbDestination; }
         if (typeof cbDestination === 'function')    { return [cbDestination, cb]; }
         if (typeof cbDestination === 'undefined')   { return cb; }
     }
