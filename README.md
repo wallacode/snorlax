@@ -52,7 +52,7 @@ var lazy = new Snorlax({
 ```
 
 ## Buckets
-We work with the principles of [Bucket sort](https://en.wikipedia.org/wiki/Bucket_sort).
+We work with the principles of [Bucket sort](https://en.wikipedia.org/wiki/Bucket_sort) that works in ```O(n)```.
 We divide the screen into buckets according to the ```bucketSize``` param, in each iteration we show a specific bucket and the buffer buckets according to the ```bucketBuffer``` param.
 
 ## Callbacks
