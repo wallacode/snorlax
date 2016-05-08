@@ -51,6 +51,10 @@ var lazy = new Snorlax({
 });
 ```
 
+## Buckets
+We work with the principles of [Bucket sort](https://en.wikipedia.org/wiki/Bucket_sort).
+We divide the screen into buckets according to the ```bucketSize param, in each iteration we show a specific bucket and the buffer buckets according to the ```bucketBuffer param.
+
 ## Callbacks
 We have 2 kinds of callbacks: show callbacks ans scroll callbacks
 
@@ -90,21 +94,24 @@ var lazy = new Snorlax({
 ## Options
 ```javascript
 var lazy = new Snorlax({
-	threshold: 100,
+	bucketSize: 400,
+	bucketBuffer: 1,
 	attrPrefix: 'data-snorlax',
 	cssClassPrefix: 'snorlax',
 	scrollDelta: 0,
 	event: 'scroll',
 	horizontal: true,
-	wrap: 'demo'
+	wrap: 'demo',
+    scrollCB: [],
+    showCB: []
 });
 ```
  Name               | Default        | Description
 --------------------|----------------|-------------------
-threshold           | 400            | number of pixels to load the image
+bucketSize          | 400            | height of each bucket
+bucketBuffer        | 1              | buffer of how much buckets before and after we should load
 attrPrefix          | 'data-snorlax' | prefix for the attrs on the html
 cssClassPrefix      | 'snorlax'      | prefix for the css classes
-scrollDelta         | 100            | (px) the interval for the scroll event, 0 for every scroll event
 event               | 'scroll'       | which event will trigger the loading
 horizontal          | false          | will set the lazy loader to work horizontaly
 wrap                | ''             | ID of the wrapper of the horizontal scroll, in the most of the times it will be a UL ID

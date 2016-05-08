@@ -23,6 +23,10 @@
          */
         q = [],
 
+        /**
+         * view buckets
+         * @type {Array}
+         */
         buckets = [],
 
         /**
@@ -31,10 +35,9 @@
          */
         config = {
             bucketSize : 400,
-            bucketThreshold: 1,
+            bucketBuffer: 1,
             attrPrefix: 'data-snorlax',
             cssClassPrefix: 'snorlax',
-            scrollDelta: 600,
             event: 'scroll',
             horizontal: false,
             wrap: '',
@@ -73,7 +76,7 @@
                 var t = __getDocumentBottomScroll();
                 __runCallbacks(config.scrollCB, {'current': t, 'prev': lastScroll});
 
-                if (Math.abs(t - lastScroll) >= config.bucketSize * config.bucketThreshold) {
+                if (Math.abs(t - lastScroll) >= config.bucketSize * config.bucketBuffer) {
                     lastScroll = t;
                     __load();
                 }
@@ -167,8 +170,8 @@
 
         for(;isOn && buckets.length;){
             if (!config.horizontal) {
-                var topBucket       = Math.max(Math.floor(__getDocumentTopScroll() / config.bucketSize) - config.bucketThreshold,0);
-                var bottomBucket    = Math.min(Math.ceil(__getDocumentBottomScroll() / config.bucketSize) + config.bucketThreshold,buckets.length-1);
+                var topBucket       = Math.max(Math.floor(__getDocumentTopScroll() / config.bucketSize) - config.bucketBuffer,0);
+                var bottomBucket    = Math.min(Math.ceil(__getDocumentBottomScroll() / config.bucketSize) + config.bucketBuffer,buckets.length-1);
 
                 for (var i=topBucket; i<bottomBucket; i++) {
                     if (!buckets[i].loaded) {
