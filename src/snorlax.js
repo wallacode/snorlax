@@ -24,14 +24,20 @@
         q = [],
 
         /**
+         * view buckets
+         * @type {Array}
+         */
+        buckets = [],
+
+        /**
          * default config
          * @type {Object}
          */
         config = {
-            threshold: 600,
+            bucketSize : 400,
+            bucketBuffer: 1,
             attrPrefix: 'data-snorlax',
             cssClassPrefix: 'snorlax',
-            scrollDelta: 600,
             event: 'scroll',
             horizontal: false,
             wrap: '',
@@ -39,18 +45,13 @@
             showCB: []
         },
 
-        /**
-         * current position of the HEAD in the search scope
-         * @type {number}
-         */
-        HEAD = 0,
-
         isOn = true
         ;
     /**
      * @constructor
      */
     _.Snorlax = function(_config) {
+
         // Custom config
         if (_config){
             this.refreshConfig(_config);
@@ -67,13 +68,15 @@
             for (var i = 0; i < q.length; i++)
                 q[i] = __getObjectFromHTMLCollection(q[i]);
 
+            __bucketSortElements(q);
+
             var lastScroll = __getDocumentBottomScroll();
 
             var action = function() {
                 var t = __getDocumentBottomScroll();
                 __runCallbacks(config.scrollCB, {'current': t, 'prev': lastScroll});
 
-                if (Math.abs(t - lastScroll) >= config.scrollDelta) {
+                if (Math.abs(t - lastScroll) >= config.bucketSize * config.bucketBuffer) {
                     lastScroll = t;
                     __load();
                 }
@@ -104,9 +107,9 @@
      * Load all the objects
      */
     _.Snorlax.prototype.loadAll = function(){
-        for(;q.length;){
-            __show(q[0]);
-            q.shift();
+        for(;buckets.length;){
+            __showBucket(buckets[0]);
+            buckets.shift();
         }
     };
 
@@ -148,7 +151,7 @@
      * abstract add cb
      * @param cb    the callbacl to add
      * @param cbDestination the destination array
-     * @returns the final destination
+     * @returns * the final destination
      * @private
      */
     function __addCB(cb, cbDestination){
@@ -164,33 +167,21 @@
      * @private
      */
     function __load(scroll){
-        HEAD = HEAD || __findInitialHead();
 
-        for(;isOn && q.length;){
+        for(;isOn && buckets.length;){
             if (!config.horizontal) {
-                var upperbound = __getDocumentTopScroll() - config.threshold;
-                var lowerbound = __getDocumentBottomScroll() + config.threshold;
+                var topBucket       = Math.max(Math.floor(__getDocumentTopScroll() / config.bucketSize) - config.bucketBuffer,0);
+                var bottomBucket    = Math.min(Math.ceil(__getDocumentBottomScroll() / config.bucketSize) + config.bucketBuffer,buckets.length-1);
 
-                __updateEdgePosition(HEAD);
-                __updateEdgePosition(HEAD-1);
-
-                if (q[HEAD].top > upperbound && q[HEAD].bottom < lowerbound) {
-                    __show(q[HEAD]);
-                    q.splice(HEAD,1);
-
-                    if (HEAD > q.length - 1 ) {
-                        HEAD--;
+                for (var i=topBucket; i<bottomBucket; i++) {
+                    if (!buckets[i].loaded) {
+                        __showBucket(buckets[i]);
                     }
-                } else if (HEAD > 0 && q[HEAD-1].top > upperbound && q[HEAD-1].bottom < lowerbound) {
-                    __show(q[HEAD - 1]);
-                    q.splice(HEAD - 1, 1);
-                    HEAD--;
-                } else {
-                    return;
                 }
+
+                return;
             }
             else {
-                __updateEdgePosition();
                 if (q[0].left - config.threshold < scroll) {
                     __show(q[0]);
                     q.shift();
@@ -288,7 +279,8 @@
             src     : HTMLitem.getAttribute(config.attrPrefix + '-src'),
             alt     : HTMLitem.getAttribute(config.attrPrefix + '-alt'),
             cb      : HTMLitem.getAttribute(config.attrPrefix + '-cb'),
-            type    : /^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpe?g|gif|png)$/i.test(HTMLitem.getAttribute(config.attrPrefix + '-src')) ? 'img' : 'iframe'
+            type    : /^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpe?g|gif|png)$/i.test(HTMLitem.getAttribute(config.attrPrefix + '-src')) ? 'img' : 'iframe',
+            loaded  : false
         };
     }
 
@@ -373,41 +365,10 @@
     }
 
     /**
-     * update the position of the item in the i'th position
-     * @param i
-     * @private
-     */
-    function __updateEdgePosition(i) {
-        i = i || HEAD;
-
-        if (q.length && i > -1 && q.length > i) {
-            q[i].top = q[i].el.getBoundingClientRect().top + __getDocumentTopScroll();
-            q[i].left = q[i].el.getBoundingClientRect().left;
-        }
-    }
-
-    /**
-     * calc the inital position of the HEAD
-     *
-     * @returns {number}
-     * @private
-     */
-    function __findInitialHead(){
-        var t = __getDocumentTopScroll();
-
-        for (var i = 0; i < q.length; i++) {
-            if (q[i].top > t)
-                return i;
-        }
-        return q.length - 1;
-    }
-
-    /**
      * run custom added callbacks.
      *
      * @param cb
-     * @param position
-     * @param lastScroll
+     * @param params
      * @private
      */
     function __runCallbacks(cb, params) {
@@ -427,6 +388,41 @@
                 throw 'callback must be a function or array of functions';
             }
         }
+    }
+
+    function __bucketSortElements(q) {
+        var body = document.body,
+            html = document.documentElement;
+
+        var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+        var numOfBuckets = Math.ceil(height / config.bucketSize);
+
+        for (var i=0; i<numOfBuckets; i++) {
+            buckets[i] = {
+                _id: i,
+                loaded      : false,
+                elements    : []
+            };
+        }
+
+        for (var i=0; i<q.length; i++) {
+            var startBucket = Math.floor(q[i].top / config.bucketSize);
+            var endBucket   = Math.ceil((q[i].bottom - q[i].top) / config.bucketSize);
+            for (var j = startBucket; j < startBucket + endBucket; j++) {
+                buckets[j].elements.push(q[i]);
+            }
+        }
+    }
+
+    function __showBucket(bucket) {
+        for (var i=0; i<bucket.elements.length; i++) {
+            if (!bucket.elements[i].loaded) {
+                __show(bucket.elements[i]);
+                bucket.elements[i].loaded = true;
+            }
+        }
+        bucket.loaded = true;
     }
 
 }(window));
