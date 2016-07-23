@@ -1,3 +1,5 @@
+[![npm](https://img.shields.io/npm/dt/express.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/snorlax)
+
 # Snorlax
 
 Snorlax is lightweight standalone lazy loading library - lazy loading as it meant to be.
