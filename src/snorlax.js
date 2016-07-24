@@ -5,10 +5,10 @@
  ..######..##.##.##.##.....##.########..##.......##.....##....###...
  .......##.##..####.##.....##.##...##...##.......#########...##.##..
  .##....##.##...###.##.....##.##....##..##.......##.....##..##...##.
- ..######..##....##..#######..##.....##.### #####.##.....##.##.....##
+ ..######..##....##..#######..##.....##.########.##.....##.##.....##
 
  light weight lazy loading plugin
- § Version:     1.0.0
+ § Version:     2.0.1
  § Author:      Walla!Code (walla.co.il)
  § Repo:        https://github.com/wallacode/snorlax
  */
@@ -51,9 +51,8 @@
      * @constructor
      */
     _.Snorlax = function(_config) {
-
         // Custom config
-        if (_config){
+        if (_config) {
             this.refreshConfig(_config);
         }
 
@@ -64,42 +63,55 @@
         elems = __getElementsByClassName(config.cssClassPrefix);
         q = __nodeListToArray(elems);
 
-        if (!config.horizontal) {
-            for (var i = 0; i < q.length; i++)
-                q[i] = __getObjectFromHTMLCollection(q[i]);
-
-            __bucketSortElements(q);
-
-            var lastScroll = __getDocumentBottomScroll();
-
-            var action = function() {
-                var t = __getDocumentBottomScroll();
-                __runCallbacks(config.scrollCB, {'current': t, 'prev': lastScroll});
-
-                if (Math.abs(t - lastScroll) >= config.bucketSize * config.bucketBuffer) {
-                    lastScroll = t;
-                    __load();
-                }
+        if (IntersectionObserver){
+            var onChange = function(changes) {
+                changes.forEach(function(change){
+                    observer.unobserve(change.target);
+                });
             };
 
-            __eventListener(_, config.event, action);
-            __runCallbacks(config.scrollCB, {'current': lastScroll, 'prev': lastScroll});
-            __load();
+            var observer = new IntersectionObserver(onChange);
+            q.forEach(function(el){ observer.observe(el); });
         } else {
-            var wrapper = document.getElementById(config.wrap);
+            if (!config.horizontal) {
+                for (var i = 0; i < q.length; i++) {
+                    q[i] = __getObjectFromHTMLCollection(q[i]);
+                    console.log(q[i]);
+                }
 
-            for (var i = 0; i < q.length; i++)
-                q[i] = __getObjectFromHTMLCollection(q[i]);
+                __bucketSortElements(q);
 
-            var lastScroll = __getEndOfWrapper();
+                var lastScroll = __getDocumentBottomScroll();
 
-            var action = function() {
-                var t = __getEndOfWrapper();
-                __load(t);
-            };
+                var action = function () {
+                    var t = __getDocumentBottomScroll();
+                    __runCallbacks(config.scrollCB, {'current': t, 'prev': lastScroll});
 
-            __eventListener(wrapper.parentElement,config.event,action);
-            __load(lastScroll);
+                    if (Math.abs(t - lastScroll) >= config.bucketSize * config.bucketBuffer) {
+                        lastScroll = t;
+                        __load();
+                    }
+                };
+
+                __eventListener(_, config.event, action);
+                __runCallbacks(config.scrollCB, {'current': lastScroll, 'prev': lastScroll});
+                __load();
+            } else {
+                var wrapper = document.getElementById(config.wrap);
+
+                for (var i = 0; i < q.length; i++)
+                    q[i] = __getObjectFromHTMLCollection(q[i]);
+
+                var lastScroll = __getEndOfWrapper();
+
+                var action = function () {
+                    var t = __getEndOfWrapper();
+                    __load(t);
+                };
+
+                __eventListener(wrapper.parentElement, config.event, action);
+                __load(lastScroll);
+            }
         }
     };
 
@@ -155,7 +167,7 @@
      * @private
      */
     function __addCB(cb, cbDestination){
-        if (cbDestination.constructor === Array)    { return cbDestination.push(cb); }
+        if (cbDestination.constructor === Array)    { cbDestination.push(cb); return cbDestination; }
         if (typeof cbDestination === 'function')    { return [cbDestination, cb]; }
         if (typeof cbDestination === 'undefined')   { return cb; }
     }
